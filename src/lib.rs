@@ -6,16 +6,9 @@ fn panic(_: &core::panic::PanicInfo) -> ! {
     unsafe { core::hint::unreachable_unchecked() }
 }
 
-pub fn log(msg: &str) {
-    let sol_log_: unsafe extern "C" fn(message: *const u8, length: u64) =
-        unsafe { core::mem::transmute(0x207559bd_usize) };
-    unsafe { sol_log_(msg.as_ptr(), msg.len() as u64) }
-}
-
 #[unsafe(no_mangle)]
 pub fn entrypoint(_input: *mut u8) -> u64 {
     core::sync::atomic::compiler_fence(core::sync::atomic::Ordering::SeqCst);
-    log("Hello, world!");
     0
 }
 
