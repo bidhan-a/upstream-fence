@@ -3,12 +3,20 @@ build-std = ["core", "alloc"]
 
 [target.bpfel-unknown-none]
 rustflags = [
-    "-C", "linker=sbpf-linker",
-    "-C", "panic=abort",
-    "-C", "save-temps",
-    "-C", "link-arg=--llvm-args=-bpf-stack-size=4096",
-    "-C", "relocation-model=static",
-    "-C", "link-arg=--dump-module=llvm_dump",
+    "-C",
+    "linker=sbpf-linker",
+    "-C",
+    "panic=abort",
+    "-C",
+    "relocation-model=static",
+    "-C",
+    "link-arg=--llvm-args=--bpf-stack-size=4096",
+    "-C",
+    "lto=off",
+    "-C",
+    "link-arg=--export=__multi3",
+    "-C",
+    "link-arg=--dump-module=llvm_dump",
 ]
 
 [alias]

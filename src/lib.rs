@@ -8,8 +8,19 @@ fn panic(_: &core::panic::PanicInfo) -> ! {
 
 #[unsafe(no_mangle)]
 pub fn entrypoint(_input: *mut u8) -> u64 {
-    core::sync::atomic::compiler_fence(core::sync::atomic::Ordering::SeqCst);
-    0
+    let mut var_a: u64 = 0x1111_2222_3333_4444;
+    let mut var_b: u64 = 0xAAAA_BBBB_CCCC_DDDD;
+
+    core::hint::black_box(&mut var_a);
+    core::hint::black_box(&mut var_b);
+
+    // This should lower via __multi3 on BPF
+    let prod = match var_a.checked_mul(var_b) {
+        Some(v) => v,
+        None => return 0,
+    };
+
+    prod ^ var_b
 }
 
 #[cfg(test)]
