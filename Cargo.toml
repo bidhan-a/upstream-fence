@@ -7,6 +7,9 @@ license = "MIT"
 [lib]
 crate-type = ["cdylib"]
 
+[dependencies]
+solana-compiler-builtins = { git = "https://github.com/blueshift-gg/solana-compiler-builtins" }
+
 [dev-dependencies]
 mollusk-svm = "0.7.0"
 solana-instruction = "3.0.0"

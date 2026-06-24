@@ -15,11 +15,11 @@ define dso_local noundef i64 @entrypoint(ptr noundef readnone captures(none) %0)
   store i64 -6148895925951734307, ptr %4, align 8
   call void @llvm.lifetime.start.p0(ptr nonnull %3)
   store ptr %5, ptr %3, align 8
-  call void asm sideeffect "", "r,~{memory}"(ptr nonnull %3) #4, !srcloc !1
+  call void asm sideeffect "", "r,~{memory}"(ptr nonnull %3) #5, !srcloc !1
   call void @llvm.lifetime.end.p0(ptr nonnull %3)
   call void @llvm.lifetime.start.p0(ptr nonnull %2)
   store ptr %4, ptr %2, align 8
-  call void asm sideeffect "", "r,~{memory}"(ptr nonnull %2) #4, !srcloc !1
+  call void asm sideeffect "", "r,~{memory}"(ptr nonnull %2) #5, !srcloc !1
   call void @llvm.lifetime.end.p0(ptr nonnull %2)
   %6 = load i64, ptr %5, align 8, !noundef !2
   %7 = load i64, ptr %4, align 8, !noundef !2
@@ -43,75 +43,7 @@ declare void @llvm.lifetime.end.p0(ptr captures(none)) #1
 declare { i64, i1 } @llvm.umul.with.overflow.i64(i64, i64) #2
 
 ; Function Attrs: nounwind
-define weak hidden void @__multi3(ptr dead_on_unwind noalias nofree noundef writable sret([16 x i8]) align 16 captures(address) dereferenceable(16) %0, ptr noalias nofree noundef align 16 captures(address) dead_on_return dereferenceable(16) %1, ptr noalias nofree noundef align 16 captures(address) dead_on_return dereferenceable(16) %2) unnamed_addr #3 {
-  %4 = load i128, ptr %1, align 16, !noundef !2
-  %5 = load i128, ptr %2, align 16, !noundef !2
-  %6 = trunc i128 %4 to i64
-  %7 = trunc i128 %5 to i64
-  %8 = and i64 %6, 4294967295
-  %9 = and i64 %7, 4294967295
-  %10 = mul nuw i64 %9, %8
-  %11 = lshr i64 %7, 32
-  %12 = mul nuw i64 %11, %8
-  %13 = lshr i64 %6, 32
-  %14 = mul nuw i64 %9, %13
-  %15 = mul nuw i64 %11, %13
-  %16 = zext i64 %10 to i128
-  %17 = sext i64 %15 to i128
-  %18 = shl nsw i128 %17, 64
-  %19 = or disjoint i128 %18, %16
-  %20 = zext i64 %12 to i128
-  %21 = zext i64 %14 to i128
-  %22 = add nuw nsw i128 %20, %21
-  %23 = shl nuw nsw i128 %22, 32
-  %24 = add i128 %19, %23
-  %25 = lshr i128 %5, 64
-  %26 = trunc nuw i128 %25 to i64
-  %27 = mul i64 %26, %6
-  %28 = zext i64 %27 to i128
-  %29 = lshr i128 %4, 64
-  %30 = trunc nuw i128 %29 to i64
-  %31 = mul i64 %7, %30
-  %32 = zext i64 %31 to i128
-  %33 = add nuw nsw i128 %28, %32
-  %34 = shl i128 %33, 64
-  %35 = add i128 %24, %34
-  store i128 %35, ptr %0, align 16, !alias.scope !4, !noalias !11
-  ret void
-}
-
-; Function Attrs: nounwind
 define weak hidden noundef i32 @bcmp(ptr noundef %0, ptr noundef %1, i64 noundef %2) unnamed_addr #3 {
-  %4 = icmp eq i64 %2, 0
-  br i1 %4, label %.loopexit, label %.preheader
-
-5:                                                ; preds = %.preheader
-  %6 = add nuw i64 %8, 1
-  %7 = icmp ult i64 %6, %2
-  br i1 %7, label %.preheader, label %.loopexit
-
-.preheader:                                       ; preds = %3, %5
-  %8 = phi i64 [ %6, %5 ], [ 0, %3 ]
-  %9 = getelementptr i8, ptr %0, i64 %8
-  %10 = load i8, ptr %9, align 1, !noundef !2
-  %11 = getelementptr i8, ptr %1, i64 %8
-  %12 = load i8, ptr %11, align 1, !noundef !2
-  %13 = icmp eq i8 %10, %12
-  br i1 %13, label %5, label %14
-
-14:                                               ; preds = %.preheader
-  %15 = zext i8 %10 to i32
-  %16 = zext i8 %12 to i32
-  %17 = sub nsw i32 %15, %16
-  br label %.loopexit
-
-.loopexit:                                        ; preds = %5, %14, %3
-  %18 = phi i32 [ %17, %14 ], [ 0, %3 ], [ 0, %5 ]
-  ret i32 %18
-}
-
-; Function Attrs: nounwind
-define weak hidden noundef i32 @memcmp(ptr noundef %0, ptr noundef %1, i64 noundef %2) local_unnamed_addr #3 {
   %4 = icmp eq i64 %2, 0
   br i1 %4, label %.loopexit, label %.preheader
 
@@ -256,7 +188,7 @@ define weak hidden noundef ptr @memmove(ptr noundef %0, ptr noundef %1, i64 noun
   %22 = sub nsw i64 0, %21
   %23 = getelementptr i8, ptr %19, i64 %22
   %24 = icmp ult ptr %23, %19
-  br i1 %24, label %.preheader.i, label %_RNvNtCs19k8a9UZQjB_17compiler_builtins3mem7memmove.exit
+  br i1 %24, label %.preheader.i, label %_RNvNtCslPiyrxoxFGw_17compiler_builtins3mem7memmove.exit
 
 .loopexit13.i:                                    ; preds = %.preheader12.i, %12
   %25 = getelementptr i8, ptr %10, i64 %15
@@ -319,7 +251,7 @@ define weak hidden noundef ptr @memmove(ptr noundef %0, ptr noundef %1, i64 noun
   %60 = load i8, ptr %59, align 1, !noundef !2
   store i8 %60, ptr %58, align 1
   %61 = icmp ult ptr %23, %58
-  br i1 %61, label %.preheader.i, label %_RNvNtCs19k8a9UZQjB_17compiler_builtins3mem7memmove.exit
+  br i1 %61, label %.preheader.i, label %_RNvNtCslPiyrxoxFGw_17compiler_builtins3mem7memmove.exit
 
 62:                                               ; preds = %3
   %63 = icmp ugt i64 %2, 15
@@ -338,7 +270,7 @@ define weak hidden noundef ptr @memmove(ptr noundef %0, ptr noundef %1, i64 noun
   %72 = phi ptr [ %81, %.loopexit17.i ], [ %0, %62 ]
   %73 = getelementptr i8, ptr %72, i64 %70
   %74 = icmp ult ptr %72, %73
-  br i1 %74, label %.preheader14.i, label %_RNvNtCs19k8a9UZQjB_17compiler_builtins3mem7memmove.exit
+  br i1 %74, label %.preheader14.i, label %_RNvNtCslPiyrxoxFGw_17compiler_builtins3mem7memmove.exit
 
 .loopexit21.i:                                    ; preds = %.preheader20.i, %64
   %75 = getelementptr i8, ptr %1, i64 %66
@@ -400,9 +332,9 @@ define weak hidden noundef ptr @memmove(ptr noundef %0, ptr noundef %1, i64 noun
   %108 = getelementptr i8, ptr %105, i64 1
   %109 = getelementptr i8, ptr %106, i64 1
   %110 = icmp ult ptr %108, %73
-  br i1 %110, label %.preheader14.i, label %_RNvNtCs19k8a9UZQjB_17compiler_builtins3mem7memmove.exit
+  br i1 %110, label %.preheader14.i, label %_RNvNtCslPiyrxoxFGw_17compiler_builtins3mem7memmove.exit
 
-_RNvNtCs19k8a9UZQjB_17compiler_builtins3mem7memmove.exit: ; preds = %.preheader14.i, %.preheader.i, %18, %69
+_RNvNtCslPiyrxoxFGw_17compiler_builtins3mem7memmove.exit: ; preds = %.preheader14.i, %.preheader.i, %18, %69
   ret ptr %0
 }
 
@@ -467,25 +399,104 @@ define weak hidden noundef ptr @memset(ptr noundef %0, i32 noundef %1, i64 nound
   ret ptr %0
 }
 
+; Function Attrs: nounwind memory(inaccessiblemem: readwrite)
+define hidden void @__multi3(i128 noundef %0, i128 noundef %1) unnamed_addr #4 {
+  %3 = trunc i128 %0 to i64
+  %4 = lshr i64 %3, 32
+  %5 = trunc i128 %1 to i64
+  %6 = lshr i64 %5, 32
+  %7 = mul nuw i64 %6, %4
+  %8 = and i64 %3, 4294967295
+  %9 = and i64 %5, 4294967295
+  %10 = mul nuw i64 %9, %8
+  %11 = lshr i64 %10, 32
+  %12 = mul nuw i64 %9, %4
+  %13 = add nuw i64 %11, %12
+  %14 = lshr i64 %13, 32
+  %15 = and i64 %13, 4294967295
+  %16 = mul nuw i64 %6, %8
+  %17 = add nuw i64 %15, %16
+  %18 = lshr i64 %17, 32
+  %19 = and i64 %10, 4294967295
+  %20 = shl i64 %17, 32
+  %21 = or disjoint i64 %20, %19
+  %22 = lshr i128 %1, 64
+  %23 = trunc nuw i128 %22 to i64
+  %24 = lshr i128 %0, 64
+  %25 = trunc nuw i128 %24 to i64
+  %26 = mul i64 %25, %5
+  %27 = mul i64 %23, %3
+  %28 = add i64 %7, %26
+  %29 = add i64 %28, %27
+  %30 = add i64 %29, %14
+  %31 = add i64 %30, %18
+  %32 = tail call { i64, i64 } asm sideeffect "r0 = ${2}\0Ar2 = ${3}", "=&{r0},=&{r2},r,r"(i64 %21, i64 %31) #6, !srcloc !4
+  ret void
+}
+
+; Function Attrs: nounwind
+define hidden noundef i32 @memcmp(ptr noundef %0, ptr noundef %1, i64 noundef %2) local_unnamed_addr #0 {
+  %4 = alloca [4 x i8], align 4
+  %5 = icmp ugt i64 %2, 32
+  br i1 %5, label %6, label %.preheader4
+
+6:                                                ; preds = %3
+  call void @llvm.lifetime.start.p0(ptr nonnull %4)
+  store i32 0, ptr %4, align 4
+  %7 = call noundef i32 inttoptr (i64 1608310321 to ptr)(ptr noundef %0, ptr noundef %1, i64 noundef %2, ptr noundef nonnull %4) #5
+  %8 = load i32, ptr %4, align 4, !noundef !2
+  call void @llvm.lifetime.end.p0(ptr nonnull %4)
+  br label %.loopexit
+
+.preheader4:                                      ; preds = %3, %14
+  %9 = phi i64 [ %10, %14 ], [ 0, %3 ]
+  %10 = add nuw i64 %9, 8
+  %11 = icmp ugt i64 %10, %2
+  br i1 %11, label %12, label %14
+
+12:                                               ; preds = %.preheader4
+  %13 = icmp ult i64 %9, %2
+  br i1 %13, label %.preheader, label %.loopexit
+
+14:                                               ; preds = %.preheader4
+  %15 = getelementptr inbounds nuw i8, ptr %0, i64 %9
+  %16 = load i64, ptr %15, align 1
+  %17 = getelementptr inbounds nuw i8, ptr %1, i64 %9
+  %18 = load i64, ptr %17, align 1
+  %19 = icmp eq i64 %16, %18
+  br i1 %19, label %.preheader4, label %.loopexit
+
+20:                                               ; preds = %.preheader
+  %21 = add nuw nsw i64 %23, 1
+  %22 = icmp ult i64 %21, %2
+  br i1 %22, label %.preheader, label %.loopexit
+
+.preheader:                                       ; preds = %12, %20
+  %23 = phi i64 [ %21, %20 ], [ %9, %12 ]
+  %24 = getelementptr inbounds nuw i8, ptr %0, i64 %23
+  %25 = load i8, ptr %24, align 1, !noundef !2
+  %26 = getelementptr inbounds nuw i8, ptr %1, i64 %23
+  %27 = load i8, ptr %26, align 1, !noundef !2
+  %28 = icmp eq i8 %25, %27
+  br i1 %28, label %20, label %.loopexit
+
+.loopexit:                                        ; preds = %14, %.preheader, %20, %12, %6
+  %29 = phi i32 [ %8, %6 ], [ 0, %12 ], [ 1, %.preheader ], [ 0, %20 ], [ 1, %14 ]
+  ret i32 %29
+}
+
 attributes #0 = { nounwind "target-cpu"="generic" }
 attributes #1 = { mustprogress nocallback nofree nosync nounwind willreturn memory(argmem: readwrite) }
 attributes #2 = { mustprogress nocallback nocreateundeforpoison nofree nosync nounwind speculatable willreturn memory(none) }
 attributes #3 = { nounwind "no-builtins" "target-cpu"="generic" }
-attributes #4 = { nounwind }
+attributes #4 = { nounwind memory(inaccessiblemem: readwrite) "target-cpu"="generic" }
+attributes #5 = { nounwind }
+attributes #6 = { nounwind memory(inaccessiblemem: readwrite) }
 
 !llvm.ident = !{!0}
 
-!0 = !{!"rustc version 1.98.0-nightly (b30f3df3b 2026-06-11)"}
-!1 = !{i64 940881305884567}
+!0 = !{!"rustc version 1.98.0-nightly (f28ac764c 2026-06-23)"}
+!1 = !{i64 940928550524834}
 !2 = !{}
 !3 = !{!"branch_weights", !"expected", i32 1, i32 2000}
-!4 = !{!5, !7, !9}
-!5 = distinct !{!5, !6, !"_RNvXsm_NtNtNtNtCs19k8a9UZQjB_17compiler_builtins4math9libm_math7support10int_traitsnNtB5_3Int12wrapping_add: argument 0"}
-!6 = distinct !{!6, !"_RNvXsm_NtNtNtNtCs19k8a9UZQjB_17compiler_builtins4math9libm_math7support10int_traitsnNtB5_3Int12wrapping_add"}
-!7 = distinct !{!7, !8, !"_RNvYnNtNtNtCs19k8a9UZQjB_17compiler_builtins3int3mul3Mul3mulB9_: argument 0"}
-!8 = distinct !{!8, !"_RNvYnNtNtNtCs19k8a9UZQjB_17compiler_builtins3int3mul3Mul3mulB9_"}
-!9 = distinct !{!9, !10, !"_RNvNtNtCs19k8a9UZQjB_17compiler_builtins3int3mul8___multi3: argument 0"}
-!10 = distinct !{!10, !"_RNvNtNtCs19k8a9UZQjB_17compiler_builtins3int3mul8___multi3"}
-!11 = !{!12, !13}
-!12 = distinct !{!12, !10, !"_RNvNtNtCs19k8a9UZQjB_17compiler_builtins3int3mul8___multi3: argument 1"}
-!13 = distinct !{!13, !10, !"_RNvNtNtCs19k8a9UZQjB_17compiler_builtins3int3mul8___multi3: argument 2"}
+!4 = !{i64 11016591116795, i64 11132555233813}
