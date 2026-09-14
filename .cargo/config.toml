@@ -8,8 +8,6 @@ rustflags = [
     "relocation-model=static",
     "-C",
     "link-arg=--llvm-args=--bpf-stack-size=4096",
-    "-C",
-    "link-arg=--arch=v0",
 ]
 
 [alias]
