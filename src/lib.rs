@@ -1,46 +1,46 @@
-#![cfg_attr(target_arch = "bpf", no_std)]
+#![cfg_attr(any(target_arch = "bpf"), no_std)]
 
-#[cfg(target_arch = "bpf")]
-#[panic_handler]
-fn panic(_: &core::panic::PanicInfo) -> ! {
-    unsafe { core::hint::unreachable_unchecked() }
-}
+extern crate alloc;
 
-#[used]
-#[unsafe(no_mangle)]
-pub static SMALL: [u8; 3] = [1, 2, 3];
+use pinocchio::{AccountView, Address, ProgramResult};
 
-#[repr(C, align(64))]
-pub struct Align64(pub [u8; 64]);
+pinocchio::program_entrypoint!(process_instruction);
+pinocchio::default_allocator!();
+pinocchio::nostd_panic_handler!();
 
-#[used]
-#[unsafe(no_mangle)]
-pub static ALIGNED: Align64 = Align64([0x5a; 64]);
-
-#[unsafe(no_mangle)]
-pub extern "C" fn entrypoint(_: *mut u8) -> u64 {
-    let ptr = core::hint::black_box(core::ptr::addr_of!(ALIGNED));
-    (ptr as usize & 63) as u64
+fn process_instruction(
+    _program_id: &Address,
+    _accounts: &mut [AccountView],
+    data: &[u8],
+) -> ProgramResult {
+    let boxed = alloc::boxed::Box::new(data.len());
+    let val = **core::hint::black_box(&boxed);
+    if val == data.len() {
+        Ok(())
+    } else {
+        Err(pinocchio::error::ProgramError::Custom(1))
+    }
 }
 
 #[cfg(test)]
 mod tests {
-    use {mollusk_svm::Mollusk, solana_instruction::Instruction};
+    use mollusk_svm::{result::Check, Mollusk};
+    use solana_instruction::Instruction;
 
     #[test]
-    fn aligned_static_address_is_64_byte_aligned() {
-        let program_id = [2u8; 32];
-
+    pub fn test_alloc() {
         let mollusk = Mollusk::new(
-            &program_id.into(),
+            &[2u8; 32].into(),
             "target/bpfel-unknown-none/release/libupstream_fence",
         );
-
-        let instruction = Instruction::new_with_bytes(program_id.into(), &[], vec![]);
-        let result = mollusk.process_instruction(&instruction, &[]);
-
-        // The program returns `address_of(ALIGNED) % 64`. A correctly laid-out
-        // `#[repr(align(64))]` static therefore returns zero (program success).
-        assert_eq!(result.raw_result, Ok(()));
+        mollusk.process_and_validate_instruction(
+            &Instruction {
+                program_id: [2u8; 32].into(),
+                accounts: vec![],
+                data: vec![0xaa, 0xbb, 0xcc],
+            },
+            &vec![],
+            &[Check::success()],
+        );
     }
 }
