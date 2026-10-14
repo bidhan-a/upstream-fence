@@ -1,0 +1,623 @@
+.globl entrypoint
+
+fn_0000:
+  ldxdw r1, [r1+0x8]
+  ldxw r4, [r1+0x14]
+  ldxw r3, [r1+0x10]
+  ldxdw r2, [r1+0x8]
+  ldxdw r1, [r1+0x0]
+  call sol_panic_
+
+entrypoint:
+  mov64 r2, 0xa
+  ldxdw r5, [r1+0x0]
+  jeq r5, 0x0, jmp_0870
+  mov64 r3, r1
+  add64 r3, 0x8
+  stxdw [r10-0x1000], r3
+  ldxdw r0, [r1+0x58]
+  mov64 r4, r1
+  add64 r4, r0
+  add64 r4, 0x2868
+  jgt r4, -0x8, jmp_0b48
+  add64 r4, 0x7
+  and64 r4, -0x8
+  jeq r5, 0x1, jmp_0730
+  jne r5, 0x2, jmp_00f0
+  ldxb r1, [r4+0x0]
+  jne r1, 0xff, jmp_0870
+  ldxdw r1, [r4+0x50]
+  add64 r4, r1
+  add64 r4, 0x2860
+  jlt r4, -0x7, jmp_0870
+  lddw r1, data_0058
+  call fn_0f40
+
+jmp_00f0:
+  mov64 r0, r10
+  add64 r0, -0x1000
+  mov64 r6, r5
+  jlt r5, 0x6, jmp_0420
+  mov64 r0, r10
+  add64 r0, -0x1000
+  mov64 r6, r5
+
+jmp_0128:
+  ldxb r7, [r4+0x0]
+  jne r7, 0xff, jmp_02b0
+  stxdw [r0+0x8], r4
+  ldxdw r7, [r4+0x50]
+  add64 r4, r7
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0b30
+  add64 r4, 0x7
+  and64 r4, -0x8
+  ldxb r7, [r4+0x0]
+  jne r7, 0xff, jmp_02f8
+
+jmp_0180:
+  stxdw [r0+0x10], r4
+  ldxdw r7, [r4+0x50]
+  add64 r4, r7
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0b30
+  add64 r4, 0x7
+  and64 r4, -0x8
+  ldxb r7, [r4+0x0]
+  jne r7, 0xff, jmp_0340
+
+jmp_01c8:
+  stxdw [r0+0x18], r4
+  ldxdw r7, [r4+0x50]
+  add64 r4, r7
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0b30
+  add64 r4, 0x7
+  and64 r4, -0x8
+  ldxb r7, [r4+0x0]
+  jne r7, 0xff, jmp_0388
+
+jmp_0210:
+  stxdw [r0+0x20], r4
+  ldxdw r7, [r4+0x50]
+  add64 r4, r7
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0b30
+  add64 r4, 0x7
+  and64 r4, -0x8
+  add64 r0, 0x28
+  ldxb r7, [r4+0x0]
+  jne r7, 0xff, jmp_03d8
+
+jmp_0260:
+  stxdw [r0+0x0], r4
+  ldxdw r7, [r4+0x50]
+  add64 r4, r7
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0b30
+  add64 r4, 0x7
+  and64 r4, -0x8
+  add64 r6, -0x5
+  jgt r6, 0x5, jmp_0128
+  ja jmp_0420
+
+jmp_02b0:
+  lsh64 r7, 0x3
+  mov64 r8, r10
+  add64 r8, -0x1000
+  add64 r8, r7
+  ldxdw r7, [r8+0x0]
+  stxdw [r0+0x8], r7
+  add64 r4, 0x8
+  ldxb r7, [r4+0x0]
+  jeq r7, 0xff, jmp_0180
+
+jmp_02f8:
+  lsh64 r7, 0x3
+  mov64 r8, r10
+  add64 r8, -0x1000
+  add64 r8, r7
+  ldxdw r7, [r8+0x0]
+  stxdw [r0+0x10], r7
+  add64 r4, 0x8
+  ldxb r7, [r4+0x0]
+  jeq r7, 0xff, jmp_01c8
+
+jmp_0340:
+  lsh64 r7, 0x3
+  mov64 r8, r10
+  add64 r8, -0x1000
+  add64 r8, r7
+  ldxdw r7, [r8+0x0]
+  stxdw [r0+0x18], r7
+  add64 r4, 0x8
+  ldxb r7, [r4+0x0]
+  jeq r7, 0xff, jmp_0210
+
+jmp_0388:
+  lsh64 r7, 0x3
+  mov64 r8, r10
+  add64 r8, -0x1000
+  add64 r8, r7
+  ldxdw r7, [r8+0x0]
+  stxdw [r0+0x20], r7
+  add64 r4, 0x8
+  add64 r0, 0x28
+  ldxb r7, [r4+0x0]
+  jeq r7, 0xff, jmp_0260
+
+jmp_03d8:
+  lsh64 r7, 0x3
+  mov64 r8, r10
+  add64 r8, -0x1000
+  add64 r8, r7
+  ldxdw r7, [r8+0x0]
+  stxdw [r0+0x0], r7
+  add64 r4, 0x8
+  add64 r6, -0x5
+  jgt r6, 0x5, jmp_0128
+
+jmp_0420:
+  jsle r6, 0x2, jmp_0518
+  jeq r6, 0x3, jmp_0570
+  jne r6, 0x4, jmp_0608
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_0910
+  stxdw [r0+0x8], r4
+  ldxdw r6, [r4+0x50]
+  add64 r4, r6
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0500
+  add64 r4, 0x7
+  and64 r4, -0x8
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_0958
+
+jmp_0490:
+  stxdw [r0+0x10], r4
+  ldxdw r6, [r4+0x50]
+  add64 r4, r6
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0500
+  add64 r4, 0x7
+  and64 r4, -0x8
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_09a0
+
+jmp_04d8:
+  stxdw [r0+0x18], r4
+  ldxdw r0, [r4+0x50]
+  add64 r4, r0
+  add64 r4, 0x2860
+  jle r4, -0x8, jmp_0718
+
+jmp_0500:
+  lddw r1, data_0088
+  call fn_0f40
+
+jmp_0518:
+  jeq r6, 0x1, jmp_0728
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_0ae8
+  stxdw [r0+0x8], r4
+  ldxdw r0, [r4+0x50]
+  add64 r4, r0
+  add64 r4, 0x2860
+  jle r4, -0x8, jmp_0718
+  lddw r1, data_00b8
+  call fn_0f40
+
+jmp_0570:
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_0890
+  stxdw [r0+0x8], r4
+  ldxdw r6, [r4+0x50]
+  add64 r4, r6
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_05f0
+  add64 r4, 0x7
+  and64 r4, -0x8
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_08d8
+
+jmp_05c8:
+  stxdw [r0+0x10], r4
+  ldxdw r0, [r4+0x50]
+  add64 r4, r0
+  add64 r4, 0x2860
+  jle r4, -0x8, jmp_0718
+
+jmp_05f0:
+  lddw r1, data_00a0
+  call fn_0f40
+
+jmp_0608:
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_09d8
+  stxdw [r0+0x8], r4
+  ldxdw r6, [r4+0x50]
+  add64 r4, r6
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0b78
+  add64 r4, 0x7
+  and64 r4, -0x8
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_0a20
+
+jmp_0660:
+  stxdw [r0+0x10], r4
+  ldxdw r6, [r4+0x50]
+  add64 r4, r6
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0b78
+  add64 r4, 0x7
+  and64 r4, -0x8
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_0a68
+
+jmp_06a8:
+  stxdw [r0+0x18], r4
+  ldxdw r6, [r4+0x50]
+  add64 r4, r6
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0b78
+  add64 r4, 0x7
+  and64 r4, -0x8
+  ldxb r6, [r4+0x0]
+  jne r6, 0xff, jmp_0ab0
+
+jmp_06f0:
+  stxdw [r0+0x20], r4
+  ldxdw r0, [r4+0x50]
+  add64 r4, r0
+  add64 r4, 0x2860
+  jgt r4, -0x8, jmp_0b78
+
+jmp_0718:
+  add64 r4, 0x7
+  and64 r4, -0x8
+
+jmp_0728:
+  jne r5, 0x1, jmp_0870
+
+jmp_0730:
+  ldxdw r5, [r4+0x0]
+  add64 r4, 0x8
+  mov64 r0, r4
+  add64 r0, r5
+  mov64 r2, 0x6
+  ldxdw r6, [r0+0x0]
+  ldxdw r7, [r1+0x30]
+  jne r7, r6, jmp_0870
+  ldxdw r6, [r0+0x8]
+  ldxdw r7, [r1+0x38]
+  jne r7, r6, jmp_0870
+  ldxdw r6, [r0+0x10]
+  ldxdw r7, [r1+0x40]
+  jne r7, r6, jmp_0870
+  ldxdw r0, [r0+0x18]
+  ldxdw r6, [r1+0x48]
+  jne r6, r0, jmp_0870
+  ldxb r2, [r1+0xa]
+  jeq r2, 0x0, jmp_0868
+  mov64 r2, 0x2
+  jne r5, 0x8, jmp_0870
+  mov64 r2, 0xb
+  ldxb r5, [r3+0x0]
+  jne r5, 0xff, jmp_0870
+  mov64 r2, 0x3
+  ldxdw r5, [r1+0x58]
+  jne r5, 0x8, jmp_0b68
+  ldxdw r4, [r4+0x0]
+  ldxdw r5, [r1+0x60]
+  mov64 r2, r5
+  add64 r2, r4
+  mov64 r4, 0x1
+  jlt r2, r5, jmp_0840
+  mov64 r4, 0x0
+
+jmp_0840:
+  jeq r4, 0x1, jmp_0b60
+  stxdw [r1+0x60], r2
+  stb [r1+0x8], 0xff
+  mov64 r0, 0x0
+  ja jmp_0888
+
+jmp_0868:
+  mov64 r2, 0x3
+
+jmp_0870:
+  mov64 r1, r2
+  mov64 r2, 0x0
+  call fn_0b90
+
+jmp_0888:
+  exit
+
+jmp_0890:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x8], r6
+  add64 r4, 0x8
+  ldxb r6, [r4+0x0]
+  jeq r6, 0xff, jmp_05c8
+
+jmp_08d8:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x10], r6
+  ja jmp_0b18
+
+jmp_0910:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x8], r6
+  add64 r4, 0x8
+  ldxb r6, [r4+0x0]
+  jeq r6, 0xff, jmp_0490
+
+jmp_0958:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x10], r6
+  add64 r4, 0x8
+  ldxb r6, [r4+0x0]
+  jeq r6, 0xff, jmp_04d8
+
+jmp_09a0:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x18], r6
+  ja jmp_0b18
+
+jmp_09d8:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x8], r6
+  add64 r4, 0x8
+  ldxb r6, [r4+0x0]
+  jeq r6, 0xff, jmp_0660
+
+jmp_0a20:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x10], r6
+  add64 r4, 0x8
+  ldxb r6, [r4+0x0]
+  jeq r6, 0xff, jmp_06a8
+
+jmp_0a68:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x18], r6
+  add64 r4, 0x8
+  ldxb r6, [r4+0x0]
+  jeq r6, 0xff, jmp_06f0
+
+jmp_0ab0:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x20], r6
+  ja jmp_0b18
+
+jmp_0ae8:
+  lsh64 r6, 0x3
+  mov64 r7, r10
+  add64 r7, -0x1000
+  add64 r7, r6
+  ldxdw r6, [r7+0x0]
+  stxdw [r0+0x8], r6
+
+jmp_0b18:
+  add64 r4, 0x8
+  jeq r5, 0x1, jmp_0730
+  ja jmp_0870
+
+jmp_0b30:
+  lddw r1, data_00d0
+  call fn_0f40
+
+jmp_0b48:
+  lddw r1, data_0040
+  call fn_0f40
+
+jmp_0b60:
+  mov64 r2, 0x17
+
+jmp_0b68:
+  stb [r3+0x0], 0xff
+  ja jmp_0870
+
+jmp_0b78:
+  lddw r1, data_0070
+  call fn_0f40
+
+fn_0b90:
+  mov64 r0, r2
+  lsh64 r1, 0x20
+  rsh64 r1, 0x20
+  jsgt r1, 0xc, jmp_0be8
+  jsle r1, 0x5, jmp_0c20
+  jsle r1, 0x8, jmp_0c90
+  jsgt r1, 0xa, jmp_0d30
+  jne r1, 0x9, jmp_0e48
+  lddw r0, 0xa00000000
+  ja jmp_0ee8
+
+jmp_0be8:
+  jsle r1, 0x12, jmp_0c60
+  jsle r1, 0x15, jmp_0cb8
+  jsgt r1, 0x17, jmp_0d50
+  jne r1, 0x16, jmp_0e60
+  lddw r0, 0x1700000000
+  ja jmp_0ee8
+
+jmp_0c20:
+  jsgt r1, 0x2, jmp_0ce0
+  jeq r1, 0x0, jmp_0da0
+  lddw r0, 0x200000000
+  jeq r1, 0x1, jmp_0ee8
+  lddw r0, 0x300000000
+  ja jmp_0ee8
+
+jmp_0c60:
+  jsgt r1, 0xf, jmp_0d08
+  jeq r1, 0xd, jmp_0dd0
+  jne r1, 0xe, jmp_0ea8
+  lddw r0, 0xf00000000
+  ja jmp_0ee8
+
+jmp_0c90:
+  jeq r1, 0x6, jmp_0d70
+  jne r1, 0x7, jmp_0e18
+  lddw r0, 0x800000000
+  ja jmp_0ee8
+
+jmp_0cb8:
+  jeq r1, 0x13, jmp_0d88
+  jne r1, 0x14, jmp_0e30
+  lddw r0, 0x1500000000
+  ja jmp_0ee8
+
+jmp_0ce0:
+  jeq r1, 0x3, jmp_0de8
+  jne r1, 0x4, jmp_0ec0
+  lddw r0, 0x500000000
+  ja jmp_0ee8
+
+jmp_0d08:
+  jeq r1, 0x10, jmp_0e00
+  jne r1, 0x11, jmp_0ed8
+  lddw r0, 0x1200000000
+  ja jmp_0ee8
+
+jmp_0d30:
+  jne r1, 0xb, jmp_0e78
+  lddw r0, 0xc00000000
+  ja jmp_0ee8
+
+jmp_0d50:
+  jne r1, 0x18, jmp_0e90
+  lddw r0, 0x1900000000
+  ja jmp_0ee8
+
+jmp_0d70:
+  lddw r0, 0x700000000
+  ja jmp_0ee8
+
+jmp_0d88:
+  lddw r0, 0x1400000000
+  ja jmp_0ee8
+
+jmp_0da0:
+  lsh64 r0, 0x20
+  rsh64 r0, 0x20
+  jne r0, 0x0, jmp_0ee8
+  lddw r0, data_0000
+  ja jmp_0ee8
+
+jmp_0dd0:
+  lddw r0, 0xe00000000
+  ja jmp_0ee8
+
+jmp_0de8:
+  lddw r0, 0x400000000
+  ja jmp_0ee8
+
+jmp_0e00:
+  lddw r0, 0x1100000000
+  ja jmp_0ee8
+
+jmp_0e18:
+  lddw r0, 0x900000000
+  ja jmp_0ee8
+
+jmp_0e30:
+  lddw r0, 0x1600000000
+  ja jmp_0ee8
+
+jmp_0e48:
+  lddw r0, 0xb00000000
+  ja jmp_0ee8
+
+jmp_0e60:
+  lddw r0, 0x1800000000
+  ja jmp_0ee8
+
+jmp_0e78:
+  lddw r0, 0xd00000000
+  ja jmp_0ee8
+
+jmp_0e90:
+  lddw r0, 0x1a00000000
+  ja jmp_0ee8
+
+jmp_0ea8:
+  lddw r0, 0x1000000000
+  ja jmp_0ee8
+
+jmp_0ec0:
+  lddw r0, 0x600000000
+  ja jmp_0ee8
+
+jmp_0ed8:
+  lddw r0, 0x1300000000
+
+jmp_0ee8:
+  exit
+
+fn_0ef0:
+  stxdw [r10-0xfe0], r2
+  stxdw [r10-0xfe8], r1
+  stxdw [r10-0xff8], r3
+  mov64 r1, r10
+  add64 r1, -0xfe8
+  stxdw [r10-0x1000], r1
+  sth [r10-0xff0], 0x1
+  mov64 r1, r10
+  add64 r1, -0x1000
+  call fn_0000
+
+fn_0f40:
+  mov64 r3, r1
+  lddw r1, data_0020
+  mov64 r2, 0x39
+  call fn_0ef0
+
+.rodata
+  data_0000: .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x73, 0x72, 0x63, 0x2f, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x2f, 0x6d, 0x6f, 0x64, 0x2e, 0x72, 0x73, 0x00, 0x00, 0x00
+  data_0020: .byte 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x20, 0x74, 0x6f, 0x20, 0x61, 0x64, 0x64, 0x20, 0x77, 0x69, 0x74, 0x68, 0x20, 0x6f, 0x76, 0x65, 0x72, 0x66, 0x6c, 0x6f, 0x77, 0x00, 0x00, 0x00, 0x00
+  data_0040: .byte 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xc2, 0x01, 0x00, 0x00, 0x09, 0x00, 0x00, 0x00
+  data_0058: .byte 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xdd, 0x01, 0x00, 0x00, 0x11, 0x00, 0x00, 0x00
+  data_0070: .byte 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe8, 0x01, 0x00, 0x00, 0x19, 0x00, 0x00, 0x00
+  data_0088: .byte 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xeb, 0x01, 0x00, 0x00, 0x19, 0x00, 0x00, 0x00
+  data_00a0: .byte 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xee, 0x01, 0x00, 0x00, 0x19, 0x00, 0x00, 0x00
+  data_00b8: .byte 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf1, 0x01, 0x00, 0x00, 0x19, 0x00, 0x00, 0x00
+  data_00d0: .byte 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x15, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe1, 0x01, 0x00, 0x00, 0x15, 0x00, 0x00, 0x00
