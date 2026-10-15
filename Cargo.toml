@@ -7,8 +7,11 @@ license = "MIT"
 [lib]
 crate-type = ["cdylib", "lib"]
 
+[dependencies]
+solana-compiler-builtins = "0.1.0"
+
 [dev-dependencies]
-mollusk-svm = "0.14.0"
+mollusk-svm = "0.16.0"
 solana-instruction = "3.4.0"
 solana-pubkey = "4.3.0"
 
