@@ -1,65 +1,61 @@
-# __multi3 issue
+# disable-flags
 
-## Issue 1
-
-Build error: ` Identifier '__multi3' should have been resolved earlier`
-
-```
-> cargo +nightly build-bpf
-   Compiling upstream-fence v0.1.0 (/Users/b/solana/upstream-fence)
-error: linking with `sbpf-linker` failed: exit status: 101
-  |
-  = note:  "sbpf-linker" "--export-symbols" "/Users/b/solana/upstream-fence/target/bpfel-unknown-none/release/deps/rustcFzNHj9/symbols""<1 object files omitted>" "-L" "/Users/b/solana/upstream-fence/target/bpfel-unknown-none/release/deps/rustcFzNHj9/raw-dylibs" "--cpu" "generic" "-o" "/Users/b/solana/upstream-fence/target/bpfel-unknown-none/release/deps/libupstream_fence.so" "-O3" "--debug" "--llvm-args=--bpf-stack-size=4096" "--dump-module=llvm_dump"
-  = note: some arguments are omitted. use `--verbose` to show all linker arguments
-  = note: 
-          thread 'main' (170623) panicked at /Users/b/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/sbpf-common-0.1.9/src/instruction.rs:147:17:
-          internal error: entered unreachable code: Identifier '__multi3' should have been resolved earlier
-          note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
-          "/Users/b/solana/upstream-fence/target/bpfel-unknown-none/release/deps/libupstream_fence.so"
-
-error: could not compile `upstream-fence` (lib) due to 1 previous error
-```
-
-This issue can be fixed by exporting `__multi3` with `"-C", "link-arg=--export=__multi3"` in [config.toml](.cargo/config.toml).
-
-## Issue 2
-
-Runtime error: `Access violation in unknown section at address 0x0 of size 8`
-
-```
-> cargo test
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.96s
-     Running unittests src/lib.rs (target/debug/deps/upstream_fence-727dfa1842dd6c95)
-
-running 1 test
-[2026-06-12T03:59:05.166921000Z DEBUG solana_runtime::message_processor::stable_log] Program 8qbHbw2BbbTHBW1sbeqakYXVKRQM8Ne7pLK7m6CVfeR invoke [1]
-[2026-06-12T03:59:05.170929000Z DEBUG solana_runtime::message_processor::stable_log] Program 8qbHbw2BbbTHBW1sbeqakYXVKRQM8Ne7pLK7m6CVfeR consumed 24 of 1400000 compute units
-[2026-06-12T03:59:05.171078000Z DEBUG solana_runtime::message_processor::stable_log] Program 8qbHbw2BbbTHBW1sbeqakYXVKRQM8Ne7pLK7m6CVfeR failed: Access violation in unknown section at address 0x0 of size 8
-test tests::hello_world ... FAILED
-
-failures:
-
----- tests::hello_world stdout ----
-
-thread 'tests::hello_world' (178877) panicked at /Users/b/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/mollusk-svm-result-0.7.2/src/check.rs:200:29:
-CHECK FAILED: program_result
-  Expected: `Success`,
- Got: `UnknownError(ProgramFailedToComplete)`
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Program that contains minimal sub-programs to reproduce and check all LLVM `--disable-*` flags.
 
 
-failures:
-    tests::hello_world
+## --disable-gotox
+- Repro: `repro_gotox`
+- Without flag: `Error: Instruction Parse Error. Error detail: (Bytecode error: invalid opcode: 0x0d).`
+- With flag: build passes
 
-test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+## --disable-ldsx
+- Repro: `repro_ldsx`
+- Without flag: `Error: Instruction Parse Error. Error detail: (Bytecode error: invalid opcode: 0x81).`
+- With flag: build passes
 
-error: test failed, to rerun pass `--lib`
-```
+## --disable-movsx
+- Repro: `repro_movsx`
+- Without flag: `Error: Instruction Parse Error. Error detail: (Bytecode error: mov64 instruction has off: 32, imm: 0 supposed to be zeros)`
+- With flag: build passes
 
-Debugging the issue (wrong codegen)
+## --disable-bswap
+- Repro: `repro_bswap`
+- Without flag: `Error: Instruction Parse Error. Error detail: (Bytecode error: invalid opcode: 0xd7).`
+- With flag: build passes
 
-- The disassembled program is at [program.s](program.s)
-- On line 21, 0 is moved to r2 (`mov64 r2, 0x0`) 
-- Then on line 24, it calls a function (`call fn_00f8`)
-- Inside the function on line 41, it tries to load value from r2 (`ldxdw r2, [r2+0x0]`) 
-- But since r2 is 0, it fails and causes the error `Access violation in unknown section at address 0x0 of size 8`
+## --disable-storeimm
+- Repro: `repro_storeimm`
+- Flag not needed
+
+## --disable-gotol
+- Repro: `repro_gotol` (must be linked with `--llvm-args=--gotol-abs-low-bound=0`)
+- `gotol` has no IR pattern, it is emitted for branches whose
+  estimated distance exceeds the `--gotol-abs-low-bound` flag (default is
+  `INT16_MAX >> 1` or 16383). A realistic repro needs ~16k+ lines of instructions, 
+  so we need to set the `gotol-abs-low-bound` flag to 0 just to reproduce it.
+- Without flag: `Error: Instruction Parse Error. Error detail: (Bytecode error: invalid opcode: 0x06).`
+- With flag: build passes
+
+## --disable-sdiv-smod
+- Repor: `repro_sdiv`
+- Without flag: `Error: Instruction Parse Error. Error detail: (Bytecode error: div64 instruction has off: 1, imm: 0 supposed to be zeros).`
+- With flag: `ERROR llvm: <unknown>:0:0: in function _RNvCs7HLXWsnOovN_14upstream_fence10repro_sdiv i64 (i64, i64): unsupported signed division, please convert to unsigned div/mod.`
+
+## --disable-load-acq-store-rel
+- Repro: `repro_atomic`
+- Without flag: `Error: Instruction Parse Error. Error detail: (Bytecode error: invalid opcode: 0xdb).`
+- With flag: `ERROR fatal error: "Cannot select: 0x7fad5a899350: i64,ch = AtomicLoad<(load acquire (s64) from %ir.0)> 0x7fad59aea8c8, 0x7fad5a899e40\n  0x7fad5a899e40: i64,ch = CopyFromReg 0x7fad59aea8c8, Register:i64 %0\nIn function: _RNvCs7HLXWsnOovN_14upstream_fence12repro_atomic"`
+
+## Summary
+
+1. These flags work correctly
+    - `--disable-gotox`
+    - `--disable-ldsx`
+    - `--disable-movsx`
+    - `--disable-bswap`
+    - `--disable-gotol`
+2. `--disable-storeimm` flag is not needed
+3. These flags produce error even when passed
+    - `--disable-sdiv-smod`
+    - `--disable-load-acq-store-rel`
+
